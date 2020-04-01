@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "TradeDataService.Protos";
+
+// The greeting service definition.
+service TradeServiceStreamer {
+  rpc GetAllTrades(TradeRequest) returns (stream TradeDataContract);
+}
+
+message TradeRequest{
+}
+
+message TradeDataContract{
+    int32 id = 1;
+    string counterparty = 2;
+    string currency =3;
+    int32 notional = 4;
+}
+
+
