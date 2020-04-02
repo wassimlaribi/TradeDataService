@@ -15,30 +15,52 @@ namespace TradeDeskTop
             tradesBindingSource1.DataSource = bindingList;
 		}
 
-		private void btnSearch_Click(object sender, EventArgs e)
-		{
-            GetAllAsync();
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var tradeRequest = BuildRequest();
+
+            if (tradeRequest.Id > 0)
+            {
+                GetTradeById(tradeRequest.Id);
+            }
+            else
+            {
+                GetAllTradesAsync();
+            }
         }
 
-        public async void GetAllAsync()
+        private TradeRequest BuildRequest()
+        {
+            var tradeRequest = new TradeRequest();
+
+            if (!string.IsNullOrWhiteSpace(tbTradeId.Text))
+                tradeRequest.Id = int.Parse(tbTradeId.Text);
+
+            return tradeRequest;
+        }
+
+        private void GetTradeById(int id)
+        {
+
+        }
+
+        public async void GetAllTradesAsync()
         {
             var grpcChannel = new Channel("127.0.0.1:5000", ChannelCredentials.Insecure);
+            var tradeServiceClient = new TradeService.TradeServiceClient(grpcChannel);
 
-            var tradeServiceClient = new TradeServiceStreamer.TradeServiceStreamerClient(grpcChannel);
-
-            using (var tradeServiceStreamer = tradeServiceClient.GetAllTrades(new TradeRequest()))
+            using (var tradeServiceStreamer = tradeServiceClient.GetAllTradesStream(new TradeRequest()))
             {
                 while (await tradeServiceStreamer.ResponseStream.MoveNext())
                 {
-                    var tradeDataContract = tradeServiceStreamer.ResponseStream.Current;
-
-                    //yield return tradeDataContract;
+                    var tradeResult = tradeServiceStreamer.ResponseStream.Current;
+                    
                     var tradeSearchModelPresenter = new TradeSearchModelPresenter()
                     {
-                        ID = tradeDataContract.Id,
-                        CounterParty = tradeDataContract.Counterparty,
-                        Currency = tradeDataContract.Currency,
-                        Notional = tradeDataContract.Notional
+                        ID = tradeResult.Id,
+                        CounterParty = tradeResult.Counterparty,
+                        Currency = tradeResult.Currency,
+                        Notional = tradeResult.Notional
                     };
 
                     bindingList.Add(tradeSearchModelPresenter);

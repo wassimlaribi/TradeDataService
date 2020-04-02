@@ -26,6 +26,14 @@ namespace TradeDataService.Repository
 			}
 		}
 
+		public Trade GetTradeById(int id)
+		{
+			if(trades.TryGetValue(id, out Trade result))
+				return result;
+
+			return result;
+		}
+
 		private void CreateTradesDb()
 		{
 			var random = new Random();

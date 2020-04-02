@@ -28,7 +28,7 @@ namespace TradeDataService
 
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapGrpcService<TradeServiceStreamerImp>();
+				endpoints.MapGrpcService<TradeServiceImp>();
 
 				endpoints.MapGet("/", async context =>
 				{

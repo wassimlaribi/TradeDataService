@@ -25,17 +25,19 @@ namespace ServiceContract {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CilUcmFkZURlc2tUb3AvcHJvdG9zL3NlcnZpY2Vjb250cmFjdC5wcm90bxIP",
-            "U2VydmljZUNvbnRyYWN0Ig4KDFRyYWRlUmVxdWVzdCJZChFUcmFkZURhdGFD",
-            "b250cmFjdBIKCgJpZBgBIAEoBRIUCgxjb3VudGVycGFydHkYAiABKAkSEAoI",
-            "Y3VycmVuY3kYAyABKAkSEAoIbm90aW9uYWwYBCABKAUyawoUVHJhZGVTZXJ2",
-            "aWNlU3RyZWFtZXISUwoMR2V0QWxsVHJhZGVzEh0uU2VydmljZUNvbnRyYWN0",
-            "LlRyYWRlUmVxdWVzdBoiLlNlcnZpY2VDb250cmFjdC5UcmFkZURhdGFDb250",
-            "cmFjdDABQhKqAg9TZXJ2aWNlQ29udHJhY3RiBnByb3RvMw=="));
+            "U2VydmljZUNvbnRyYWN0IhoKDFRyYWRlUmVxdWVzdBIKCgJpZBgBIAEoBSJT",
+            "CgtUcmFkZVJlc3VsdBIKCgJpZBgBIAEoBRIUCgxjb3VudGVycGFydHkYAiAB",
+            "KAkSEAoIY3VycmVuY3kYAyABKAkSEAoIbm90aW9uYWwYBCABKAUysAEKDFRy",
+            "YWRlU2VydmljZRJTChJHZXRBbGxUcmFkZXNTdHJlYW0SHS5TZXJ2aWNlQ29u",
+            "dHJhY3QuVHJhZGVSZXF1ZXN0GhwuU2VydmljZUNvbnRyYWN0LlRyYWRlUmVz",
+            "dWx0MAESSwoMR2V0VHJhZGVCeUlkEh0uU2VydmljZUNvbnRyYWN0LlRyYWRl",
+            "UmVxdWVzdBocLlNlcnZpY2VDb250cmFjdC5UcmFkZVJlc3VsdEISqgIPU2Vy",
+            "dmljZUNvbnRyYWN0YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeRequest), global::ServiceContract.TradeRequest.Parser, null, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeDataContract), global::ServiceContract.TradeDataContract.Parser, new[]{ "Id", "Counterparty", "Currency", "Notional" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeRequest), global::ServiceContract.TradeRequest.Parser, new[]{ "Id" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeResult), global::ServiceContract.TradeResult.Parser, new[]{ "Id", "Counterparty", "Currency", "Notional" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,12 +69,24 @@ namespace ServiceContract {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public TradeRequest(TradeRequest other) : this() {
+      id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public TradeRequest Clone() {
       return new TradeRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -88,12 +102,14 @@ namespace ServiceContract {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -107,6 +123,10 @@ namespace ServiceContract {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -115,6 +135,9 @@ namespace ServiceContract {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -125,6 +148,9 @@ namespace ServiceContract {
     public void MergeFrom(TradeRequest other) {
       if (other == null) {
         return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -137,17 +163,21 @@ namespace ServiceContract {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
+          case 8: {
+            Id = input.ReadInt32();
+            break;
+          }
         }
       }
     }
 
   }
 
-  public sealed partial class TradeDataContract : pb::IMessage<TradeDataContract> {
-    private static readonly pb::MessageParser<TradeDataContract> _parser = new pb::MessageParser<TradeDataContract>(() => new TradeDataContract());
+  public sealed partial class TradeResult : pb::IMessage<TradeResult> {
+    private static readonly pb::MessageParser<TradeResult> _parser = new pb::MessageParser<TradeResult>(() => new TradeResult());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<TradeDataContract> Parser { get { return _parser; } }
+    public static pb::MessageParser<TradeResult> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -160,14 +190,14 @@ namespace ServiceContract {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TradeDataContract() {
+    public TradeResult() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TradeDataContract(TradeDataContract other) : this() {
+    public TradeResult(TradeResult other) : this() {
       id_ = other.id_;
       counterparty_ = other.counterparty_;
       currency_ = other.currency_;
@@ -176,8 +206,8 @@ namespace ServiceContract {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public TradeDataContract Clone() {
-      return new TradeDataContract(this);
+    public TradeResult Clone() {
+      return new TradeResult(this);
     }
 
     /// <summary>Field number for the "id" field.</summary>
@@ -226,11 +256,11 @@ namespace ServiceContract {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as TradeDataContract);
+      return Equals(other as TradeResult);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(TradeDataContract other) {
+    public bool Equals(TradeResult other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -307,7 +337,7 @@ namespace ServiceContract {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(TradeDataContract other) {
+    public void MergeFrom(TradeResult other) {
       if (other == null) {
         return;
       }
