@@ -25,18 +25,17 @@ namespace ServiceContract {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CilUcmFkZURlc2tUb3AvcHJvdG9zL3NlcnZpY2Vjb250cmFjdC5wcm90bxIP",
-            "U2VydmljZUNvbnRyYWN0IhoKDFRyYWRlUmVxdWVzdBIKCgJpZBgBIAEoBSJT",
-            "CgtUcmFkZVJlc3VsdBIKCgJpZBgBIAEoBRIUCgxjb3VudGVycGFydHkYAiAB",
-            "KAkSEAoIY3VycmVuY3kYAyABKAkSEAoIbm90aW9uYWwYBCABKAUysAEKDFRy",
-            "YWRlU2VydmljZRJTChJHZXRBbGxUcmFkZXNTdHJlYW0SHS5TZXJ2aWNlQ29u",
-            "dHJhY3QuVHJhZGVSZXF1ZXN0GhwuU2VydmljZUNvbnRyYWN0LlRyYWRlUmVz",
-            "dWx0MAESSwoMR2V0VHJhZGVCeUlkEh0uU2VydmljZUNvbnRyYWN0LlRyYWRl",
-            "UmVxdWVzdBocLlNlcnZpY2VDb250cmFjdC5UcmFkZVJlc3VsdEISqgIPU2Vy",
-            "dmljZUNvbnRyYWN0YgZwcm90bzM="));
+            "U2VydmljZUNvbnRyYWN0IjAKDFRyYWRlUmVxdWVzdBIKCgJpZBgBIAEoBRIU",
+            "Cgxjb3VudGVycGFydHkYAiABKAkiUwoLVHJhZGVSZXN1bHQSCgoCaWQYASAB",
+            "KAUSFAoMY291bnRlcnBhcnR5GAIgASgJEhAKCGN1cnJlbmN5GAMgASgJEhAK",
+            "CG5vdGlvbmFsGAQgASgFMmIKDFRyYWRlU2VydmljZRJSChFGZXRjaFRyYWRl",
+            "c1N0cmVhbRIdLlNlcnZpY2VDb250cmFjdC5UcmFkZVJlcXVlc3QaHC5TZXJ2",
+            "aWNlQ29udHJhY3QuVHJhZGVSZXN1bHQwAUISqgIPU2VydmljZUNvbnRyYWN0",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeRequest), global::ServiceContract.TradeRequest.Parser, new[]{ "Id" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeRequest), global::ServiceContract.TradeRequest.Parser, new[]{ "Id", "Counterparty" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ServiceContract.TradeResult), global::ServiceContract.TradeResult.Parser, new[]{ "Id", "Counterparty", "Currency", "Notional" }, null, null, null, null)
           }));
     }
@@ -70,6 +69,7 @@ namespace ServiceContract {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public TradeRequest(TradeRequest other) : this() {
       id_ = other.id_;
+      counterparty_ = other.counterparty_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -89,6 +89,17 @@ namespace ServiceContract {
       }
     }
 
+    /// <summary>Field number for the "counterparty" field.</summary>
+    public const int CounterpartyFieldNumber = 2;
+    private string counterparty_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Counterparty {
+      get { return counterparty_; }
+      set {
+        counterparty_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as TradeRequest);
@@ -103,6 +114,7 @@ namespace ServiceContract {
         return true;
       }
       if (Id != other.Id) return false;
+      if (Counterparty != other.Counterparty) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -110,6 +122,7 @@ namespace ServiceContract {
     public override int GetHashCode() {
       int hash = 1;
       if (Id != 0) hash ^= Id.GetHashCode();
+      if (Counterparty.Length != 0) hash ^= Counterparty.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -127,6 +140,10 @@ namespace ServiceContract {
         output.WriteRawTag(8);
         output.WriteInt32(Id);
       }
+      if (Counterparty.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Counterparty);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -137,6 +154,9 @@ namespace ServiceContract {
       int size = 0;
       if (Id != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      if (Counterparty.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Counterparty);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -152,6 +172,9 @@ namespace ServiceContract {
       if (other.Id != 0) {
         Id = other.Id;
       }
+      if (other.Counterparty.Length != 0) {
+        Counterparty = other.Counterparty;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -165,6 +188,10 @@ namespace ServiceContract {
             break;
           case 8: {
             Id = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Counterparty = input.ReadString();
             break;
           }
         }

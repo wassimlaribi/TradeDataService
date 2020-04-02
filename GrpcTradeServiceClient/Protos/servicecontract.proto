@@ -7,8 +7,7 @@ package ServiceContract;
 
 // Trade service definition.
 service TradeService {
-  rpc GetAllTradesStream (TradeRequest) returns (stream TradeResult);
-  rpc GetTradeById (TradeRequest) returns (TradeResult);
+  rpc FetchTradesStream (TradeRequest) returns (stream TradeResult);
 }
 
 message TradeRequest{

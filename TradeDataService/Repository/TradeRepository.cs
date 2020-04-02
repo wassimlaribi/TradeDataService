@@ -17,12 +17,28 @@ namespace TradeDataService.Repository
 			CreateTradesDb();
 		}
 
-		public IEnumerable<Trade> GetAll()
+		public IEnumerable<Trade> FetchTrade(Criterias criteria)
 		{
-			foreach (var trade in trades.Values)
+
+			if (criteria.Id > 0)
 			{
-				Task.Delay(1000).Wait();
-				yield return trade;
+				yield return GetTradeById(criteria.Id);
+			}
+			else
+			{
+				foreach (var trade in trades.Values)
+				{
+					if(!string.IsNullOrWhiteSpace(criteria.CounterParty))
+					{
+						if(!trade.CounterParty.Equals(criteria.CounterParty))
+						{
+							continue;
+						}
+					}
+
+					Task.Delay(1000).Wait();
+					yield return trade;
+				}
 			}
 		}
 

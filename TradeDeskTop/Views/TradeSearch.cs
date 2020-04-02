@@ -17,16 +17,9 @@ namespace TradeDeskTop
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            bindingList.Clear();
             var tradeRequest = BuildRequest();
-
-            if (tradeRequest.Id > 0)
-            {
-                GetTradeById(tradeRequest.Id);
-            }
-            else
-            {
-                GetAllTradesAsync();
-            }
+            FetchTradesAsync(tradeRequest);
         }
 
         private TradeRequest BuildRequest()
@@ -36,20 +29,18 @@ namespace TradeDeskTop
             if (!string.IsNullOrWhiteSpace(tbTradeId.Text))
                 tradeRequest.Id = int.Parse(tbTradeId.Text);
 
+            if (!string.IsNullOrWhiteSpace(tbCounterParty.Text))
+                tradeRequest.Counterparty = tbCounterParty.Text;
+
             return tradeRequest;
         }
 
-        private void GetTradeById(int id)
-        {
-
-        }
-
-        public async void GetAllTradesAsync()
+        public async void FetchTradesAsync(TradeRequest tradeRequest)
         {
             var grpcChannel = new Channel("127.0.0.1:5000", ChannelCredentials.Insecure);
             var tradeServiceClient = new TradeService.TradeServiceClient(grpcChannel);
 
-            using (var tradeServiceStreamer = tradeServiceClient.GetAllTradesStream(new TradeRequest()))
+            using (var tradeServiceStreamer = tradeServiceClient.FetchTradesStream(tradeRequest))
             {
                 while (await tradeServiceStreamer.ResponseStream.MoveNext())
                 {

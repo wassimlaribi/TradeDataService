@@ -17,7 +17,7 @@ namespace GrpcTradeServiceClient
 
 			var tradeServiceClient = new TradeService.TradeServiceClient(grpcChannel);
 
-			using (var tradeServiceStreamer = tradeServiceClient.GetAllTradesStream(new TradeRequest()))
+			using (var tradeServiceStreamer = tradeServiceClient.FetchTradesStream(new TradeRequest()))
 			{
 				while (await tradeServiceStreamer.ResponseStream.MoveNext())
 				{

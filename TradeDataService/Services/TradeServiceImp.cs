@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
 using ServiceContract;
 using System.Threading.Tasks;
-using TradeDataService.Domain;
 using TradeDataService.Repository;
 
 
@@ -11,11 +10,13 @@ namespace TradeDataService.Services
     {
         private static readonly TradeRepository tradeRepository = new TradeRepository();
 
-        public override async Task GetAllTradesStream(TradeRequest request, IServerStreamWriter<TradeResult> responseStream, ServerCallContext context)
+        public override async Task FetchTradesStream(TradeRequest request, IServerStreamWriter<TradeResult> responseStream, ServerCallContext context)
         {
-            foreach (var trade in tradeRepository.GetAll())
+            var criterias = BuildCriteriaFromRequest(request);
+
+            foreach (var trade in tradeRepository.FetchTrade(criterias))
             {
-                var tradeResultContract = new TradeResult()
+                var tradeResult = new TradeResult()
                 {
                     Id = trade.ID,
                     Counterparty = trade.CounterParty,
@@ -23,25 +24,19 @@ namespace TradeDataService.Services
                     Notional = trade.Notional
                 };
 
-                await responseStream.WriteAsync(tradeResultContract);
+                await responseStream.WriteAsync(tradeResult);
             }
         }
 
-        public override Task<TradeResult> GetTradeById(TradeRequest request, ServerCallContext context)
+        private Criterias BuildCriteriaFromRequest(TradeRequest request)
         {
-            Trade trade = tradeRepository.GetTradeById(request.Id);
-
-            var tradecontract = new TradeResult();
-
-            if (trade != null)
+            return new Criterias
             {
-                tradecontract.Id = trade.ID;
-                tradecontract.Counterparty = trade.CounterParty;
-                tradecontract.Currency = trade.Currency;
-                tradecontract.Notional = trade.Notional;
-            }
-
-            return Task.FromResult(tradecontract);
+                Id = request.Id,
+                CounterParty = request.Counterparty
+            };
         }
+
+       
     }
 }
