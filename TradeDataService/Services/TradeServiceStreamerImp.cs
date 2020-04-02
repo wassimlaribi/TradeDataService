@@ -1,12 +1,12 @@
-﻿using Greeter;
-using Grpc.Core;
+﻿using Grpc.Core;
+using ServiceContract;
 using System.Threading.Tasks;
 using TradeDataService.Repository;
 
 
 namespace TradeDataService.Services
 {
-    public class TradeServiceStreamerImp : Greeter.TradeServiceStreamer.TradeServiceStreamerBase
+    public class TradeServiceStreamerImp : TradeServiceStreamer.TradeServiceStreamerBase
     {
         private static readonly TradeRepository tradeRepository = new TradeRepository();
 

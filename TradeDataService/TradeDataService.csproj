@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greeter.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\servicecontract.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

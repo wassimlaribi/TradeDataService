@@ -36,16 +36,8 @@ cd /d %~dp0
 
 set TOOLS_PATH=packages\Grpc.Tools.2.27.0\tools\windows_x64
 
-%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\greeter.proto --csharp_out TradeDeskTop\Contract
+%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\servicecontract.proto --csharp_out TradeDeskTop\Contract
 
-%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\greeter.proto --grpc_out TradeDeskTop\Contract --plugin=protoc-gen-grpc=%TOOLS_PATH%\grpc_csharp_plugin.exe
-
-%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\tradedataservice.proto --csharp_out TradeDeskTop\Contract
-
-%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\tradedataservice.proto --grpc_out TradeDeskTop\Contract --plugin=protoc-gen-grpc=%TOOLS_PATH%\grpc_csharp_plugin.exe
-
-@rem %TOOLS_PATH%\protoc.exe Chat\protos\chat.proto --csharp_out Chat 
-
-@rem %TOOLS_PATH%\protoc.exe Chat\protos\chat.proto Chat Chat\protos\chat.proto --grpc_out Chat --plugin=protoc-gen-grpc=%TOOLS_PATH%\grpc_csharp_plugin.exe
+%TOOLS_PATH%\protoc.exe TradeDeskTop\protos\servicecontract.proto --grpc_out TradeDeskTop\Contract --plugin=protoc-gen-grpc=%TOOLS_PATH%\grpc_csharp_plugin.exe
 
 endlocal

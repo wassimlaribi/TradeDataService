@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using Grpc.Core;
-using Greeter;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.ComponentModel;
+using ServiceContract;
 
 namespace TradeDeskTop
 {
