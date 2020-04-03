@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using ServiceContract;
 using System.Threading.Tasks;
 using TradeDataService.Repository;
@@ -8,14 +9,23 @@ namespace TradeDataService.Services
 {
     public class TradeServiceImp : TradeService.TradeServiceBase
     {
-        private static readonly TradeRepository tradeRepository = new TradeRepository();
+        private readonly ITradeRepository tradeRepository;
+
+        public TradeServiceImp(ITradeRepository tradeRepository)
+        {
+            this.tradeRepository = tradeRepository;
+        }
 
         public override async Task FetchTradesStream(TradeRequest request, IServerStreamWriter<TradeResult> responseStream, ServerCallContext context)
         {
             var criterias = BuildCriteriaFromRequest(request);
-
+            
             foreach (var trade in tradeRepository.FetchTrade(criterias))
             {
+                if(context.CancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
                 var tradeResult = new TradeResult()
                 {
                     Id = trade.ID,

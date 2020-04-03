@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TradeDataService.Repository;
 using TradeDataService.Services;
 
 namespace TradeDataService
@@ -14,6 +15,7 @@ namespace TradeDataService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddGrpc();
+			services.AddSingleton<ITradeRepository,TradeRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

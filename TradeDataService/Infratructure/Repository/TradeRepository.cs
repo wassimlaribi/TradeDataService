@@ -5,12 +5,12 @@ using TradeDataService.Domain;
 
 namespace TradeDataService.Repository
 {
-	public class TradeRepository
+	public class TradeRepository : ITradeRepository
 	{
 		private readonly List<string> counterParties = new List<string> { "Gold", "AIR", "JPM", "SG", "Natixis" };
 		private readonly List<string> currencies = new List<string> { "USD", "EUR", "HKD", "AUD", "GBP" };
 		private readonly List<int> notionals = new List<int> { 100000,200000,300000,400000,500000 };
-		private Dictionary<int, Trade> trades = new Dictionary<int, Trade>();
+		private readonly Dictionary<int, Trade> trades = new Dictionary<int, Trade>();
 
 		public TradeRepository()
 		{
@@ -36,7 +36,7 @@ namespace TradeDataService.Repository
 						}
 					}
 
-					Task.Delay(1000).Wait();
+					Task.Delay(500).Wait();
 					yield return trade;
 				}
 			}

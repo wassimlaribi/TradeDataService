@@ -1,19 +1,21 @@
-﻿using System;
-using System.Windows.Forms;
-using Grpc.Core;
-using System.ComponentModel;
+﻿using Grpc.Core;
 using ServiceContract;
+using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace TradeDeskTop
 {
     public partial class TradeSearch : Form
-	{
+    {
         public BindingList<TradeSearchModelPresenter> bindingList = new BindingList<TradeSearchModelPresenter>();
+        public CancellationTokenSource tokenSource;
         public TradeSearch()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             tradesBindingSource1.DataSource = bindingList;
-		}
+        }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -37,26 +39,40 @@ namespace TradeDeskTop
 
         public async void FetchTradesAsync(TradeRequest tradeRequest)
         {
-            var grpcChannel = new Channel("127.0.0.1:5000", ChannelCredentials.Insecure);
-            var tradeServiceClient = new TradeService.TradeServiceClient(grpcChannel);
-
-            using (var tradeServiceStreamer = tradeServiceClient.FetchTradesStream(tradeRequest))
+            try
             {
-                while (await tradeServiceStreamer.ResponseStream.MoveNext())
-                {
-                    var tradeResult = tradeServiceStreamer.ResponseStream.Current;
-                    
-                    var tradeSearchModelPresenter = new TradeSearchModelPresenter()
-                    {
-                        ID = tradeResult.Id,
-                        CounterParty = tradeResult.Counterparty,
-                        Currency = tradeResult.Currency,
-                        Notional = tradeResult.Notional
-                    };
+                var grpcChannel = new Channel("127.0.0.1:5000", ChannelCredentials.Insecure);
+                var tradeServiceClient = new TradeService.TradeServiceClient(grpcChannel);
+                tokenSource = new CancellationTokenSource();
 
-                    bindingList.Add(tradeSearchModelPresenter);
+                using (var tradeServiceStreamer = tradeServiceClient.FetchTradesStream(tradeRequest))
+                {
+                    while (await tradeServiceStreamer.ResponseStream.MoveNext(tokenSource.Token))
+                    {
+                        var tradeResult = tradeServiceStreamer.ResponseStream.Current;
+
+                        var tradeSearchModelPresenter = new TradeSearchModelPresenter()
+                        {
+                            ID = tradeResult.Id,
+                            CounterParty = tradeResult.Counterparty,
+                            Currency = tradeResult.Currency,
+                            Notional = tradeResult.Notional
+                        };
+
+                        bindingList.Add(tradeSearchModelPresenter);
+                    }
                 }
             }
+            catch (RpcException e) when (e.Status.StatusCode == StatusCode.Cancelled)
+            {
+                Console.WriteLine("Client cancelled streaming!");
+                tokenSource.Dispose();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            tokenSource.Cancel();
         }
     }
 }
