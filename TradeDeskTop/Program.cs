@@ -16,8 +16,7 @@ namespace TradeDeskTop
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new TradeSearch());
-
+			Application.Run(new TradeSearch(new Views.TradeSearchViewPresenter()));
 		}
 	}
 }

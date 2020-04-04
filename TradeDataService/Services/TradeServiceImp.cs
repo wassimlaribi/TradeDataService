@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using Microsoft.Extensions.Logging;
 using ServiceContract;
 using System.Threading.Tasks;
 using TradeDataService.Repository;

@@ -76,6 +76,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\TradeSearchModelPresenter.cs" />
+    <Compile Include="Views\TradeSearchViewPresenter.cs" />
     <EmbeddedResource Include="Views\TradeSearch.resx">
       <DependentUpon>TradeSearch.cs</DependentUpon>
     </EmbeddedResource>
