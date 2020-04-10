@@ -10,6 +10,7 @@ namespace TradeDataService.Services
     {
         private readonly ITradeRepository tradeRepository;
 
+        //TradeRepository is a Singleton class, it will be injected 
         public TradeServiceImp(ITradeRepository tradeRepository)
         {
             this.tradeRepository = tradeRepository;
@@ -17,14 +18,18 @@ namespace TradeDataService.Services
 
         public override async Task FetchTradesStream(TradeRequest request, IServerStreamWriter<TradeResult> responseStream, ServerCallContext context)
         {
+            //using Criteria class to decouple the database from the contract "TradeRequest"
             var criterias = BuildCriteriaFromRequest(request);
-            
+
             foreach (var trade in tradeRepository.FetchTrade(criterias))
             {
-                if(context.CancellationToken.IsCancellationRequested)
+                //Client could cancel the request at any time with this token 
+                if (context.CancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
+
+                //Build TradeResult
                 var tradeResult = new TradeResult()
                 {
                     Id = trade.ID,
@@ -32,7 +37,7 @@ namespace TradeDataService.Services
                     Currency = trade.Currency,
                     Notional = trade.Notional
                 };
-
+                //Return the result async 
                 await responseStream.WriteAsync(tradeResult);
             }
         }
@@ -45,7 +50,5 @@ namespace TradeDataService.Services
                 CounterParty = request.Counterparty
             };
         }
-
-       
     }
 }

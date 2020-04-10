@@ -5,6 +5,7 @@ using TradeDataService.Domain;
 
 namespace TradeDataService.Repository
 {
+	//Memory implementation of ITradeRepository
 	public class TradeRepository : ITradeRepository
 	{
 		private readonly List<string> counterParties = new List<string> { "Gold", "AIR", "JPM", "SG", "Natixis" };
@@ -12,11 +13,14 @@ namespace TradeDataService.Repository
 		private readonly List<int> notionals = new List<int> { 100000,200000,300000,400000,500000 };
 		private readonly Dictionary<int, Trade> trades = new Dictionary<int, Trade>();
 
+		//create a memory database of trade 
 		public TradeRepository()
 		{
 			CreateTradesDb();
 		}
 
+		//simulate the fetch method from the database
+		//
 		public IEnumerable<Trade> FetchTrade(Criterias criteria)
 		{
 
@@ -50,6 +54,7 @@ namespace TradeDataService.Repository
 			return result;
 		}
 
+		//Create a fake memory database 
 		private void CreateTradesDb()
 		{
 			var random = new Random();

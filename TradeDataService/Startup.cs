@@ -15,6 +15,7 @@ namespace TradeDataService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddGrpc();
+			//Injecting TradeRepository as a singleton 
 			services.AddSingleton<ITradeRepository,TradeRepository>();
 		}
 
@@ -30,6 +31,7 @@ namespace TradeDataService
 
 			app.UseEndpoints(endpoints =>
 			{
+				//Add TradeServiceImpl as a endpoints 
 				endpoints.MapGrpcService<TradeServiceImp>();
 
 				endpoints.MapGet("/", async context =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TradeDataService.Domain
 {
+	//Internal domain model
 	public class Trade
 	{
 		public int ID { get; set; }
