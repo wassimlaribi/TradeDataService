@@ -40,7 +40,7 @@ namespace TradeDataService.Repository
 						}
 					}
 
-					Task.Delay(500).Wait();
+					Task.Delay(300).Wait();
 					yield return trade;
 				}
 			}
@@ -50,6 +50,9 @@ namespace TradeDataService.Repository
 		{
 			if(trades.TryGetValue(id, out Trade result))
 				return result;
+
+			//return empty trade
+			result = new Trade();
 
 			return result;
 		}

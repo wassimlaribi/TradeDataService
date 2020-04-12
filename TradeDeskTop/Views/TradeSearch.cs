@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TradeDeskTop.Views;
 
@@ -17,15 +16,15 @@ namespace TradeDeskTop
             //Bing grid with view presenter trade list 
             tradesBindingSource1.DataSource = viewPresenter.TradeBindingList;
             tbTradeId.DataBindings.Add("Text", viewPresenter, "TradeId");
-            
+
             tbCounterParty.DataBindings.Add("Text", viewPresenter, "CounterParty");
-            lbLoadedTradeNumber.DataBindings.Add("Text", viewPresenter, "NumberOfTradeViewLabel",false,DataSourceUpdateMode.OnPropertyChanged);
-            
+            lbLoadedTradeNumber.DataBindings.Add("Text", viewPresenter, "NumberOfTradeViewLabel", false, DataSourceUpdateMode.OnPropertyChanged);
+
         }
 
         private void ViewPresenter_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals("IsLoadingCompleted"))
+            if (e.PropertyName.Equals("IsLoadingCompleted"))
             {
                 StopProgressBar();
             }

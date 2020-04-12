@@ -7,18 +7,16 @@ namespace TradeDeskTop.Views
 {
     public class TradeSearchViewPresenter : INotifyPropertyChanged
     {
-        public BindingList<TradeSearchModelPresenter> TradeBindingList = new BindingList<TradeSearchModelPresenter>();
+        public BindingList<TradeModelPresenter> TradeBindingList = new BindingList<TradeModelPresenter>();
         public string TradeId { get; set; }
         public string CounterParty { get; set; }
 
         private CancellationTokenSource tokenSource;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public int NumberOfTrade { get; set; }
 
         private string numberOfTradeViewLabel = $"Loading 0";
-
         public string NumberOfTradeViewLabel
         {
             get => numberOfTradeViewLabel;
@@ -79,7 +77,7 @@ namespace TradeDeskTop.Views
                         var tradeResult = tradeServiceStreamer.ResponseStream.Current;
 
                         //Build trade model presenter from result
-                        var tradeSearchModelPresenter = new TradeSearchModelPresenter()
+                        var tradeModelPresenter = new TradeModelPresenter()
                         {
                             ID = tradeResult.Id,
                             CounterParty = tradeResult.Counterparty,
@@ -88,9 +86,9 @@ namespace TradeDeskTop.Views
                         };
 
                         //Update grid
-                        TradeBindingList.Add(tradeSearchModelPresenter);
+                        TradeBindingList.Add(tradeModelPresenter);
                         //Update number of trade label
-                        NumberOfTradeViewLabel = $"Loading {NumberOfTrade++}";
+                        NumberOfTradeViewLabel = $"Loading {++NumberOfTrade}";
                     }
                 }
             }
@@ -107,6 +105,7 @@ namespace TradeDeskTop.Views
             }
         }
 
+        //Building TradeRequest from input values
         private TradeRequest BuildRequest()
         {
             var tradeRequest = new TradeRequest();
@@ -122,7 +121,7 @@ namespace TradeDeskTop.Views
 
         public void CancelRequest()
         {
-            if(tokenSource.IsCancellationRequested == false)
+            if (tokenSource.IsCancellationRequested == false)
                 tokenSource.Cancel();
         }
     }

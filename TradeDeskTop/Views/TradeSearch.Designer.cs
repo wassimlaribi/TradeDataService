@@ -169,7 +169,7 @@
 			// 
 			// tradesBindingSource1
 			// 
-			this.tradesBindingSource1.DataSource = typeof(TradeDeskTop.TradeSearchModelPresenter);
+			this.tradesBindingSource1.DataSource = typeof(TradeDeskTop.TradeModelPresenter);
 			// 
 			// TradeSearch
 			// 
