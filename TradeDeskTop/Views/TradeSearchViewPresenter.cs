@@ -58,7 +58,7 @@ namespace TradeDeskTop.Views
         public async void FetchTradesAsync()
         {
             //Init grpc channel 
-            Channel grpcChannel = new Channel("127.0.0.1:5000", ChannelCredentials.Insecure);
+            Channel grpcChannel = new Channel("localhost:5000", ChannelCredentials.Insecure);
             try
             {
                 //Reset View
